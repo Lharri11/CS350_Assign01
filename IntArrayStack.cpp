@@ -31,9 +31,11 @@ IntArrayStack::~IntArrayStack() {
 
 #if PUSH || ALL
 void IntArrayStack::push(int x){
+    //If Stack is full, double capacity of array
     if(top+1 == capacity){
         resize(2 * capacity);
     }
+    //"Push" value into stack as array element
     stack[++top] = x;
 }
 #endif
@@ -42,15 +44,20 @@ void IntArrayStack::push(int x){
 
 #if POP || ALL
 int IntArrayStack::pop(){
+    //If Stack is empty, return -1
     if(top == -1){
         return -1;
     }
     else {
+        //Assign variable to "topmost" array element
         int pop_val = stack[top];
+        //Decrement "topmost" array index
         top--;
+        //If stack size is less than 1/3 of array size, halve the size of the array
         if(top+1 <= (capacity/3)){
             resize(capacity/2);
         }
+        //"Pop" the topmost value off of the stack
         return pop_val;
     }
 }
@@ -60,11 +67,14 @@ int IntArrayStack::pop(){
 
 #if PEEK || ALL
 int IntArrayStack::peek(){
+    //If Stack is empty, return -1
     if(top == -1){
         return -1;
     }
     else {
+        //Assign variable to "topmost" array element
         int peek_val = stack[top];
+        //"Peek" at the topmost value of the stack
         return peek_val;
     }
 }
@@ -74,12 +84,11 @@ int IntArrayStack::peek(){
 
 #if ISEMPTY || ALL
 bool IntArrayStack::isEmpty(){
+    //If "top" = -1, this implies stack is empty
     if(top == -1){
         return true;
     }
-    else{
         return false;
-    }
 }
 #endif
 
@@ -87,6 +96,7 @@ bool IntArrayStack::isEmpty(){
 
 #if EMPTYSTACK || ALL
 void IntArrayStack::emptyStack(){
+    //Re-initialize stack capacity to 1 and stack array index to -1
     resize(1);
     top = -1;
 }
@@ -96,14 +106,19 @@ void IntArrayStack::emptyStack(){
 
 #if RESIZE || ALL
 void IntArrayStack::resize(int newCapacity){
+    //Update array capacity to new desired capacity
     capacity = newCapacity;
 
+    //Dynamically allocate new array with new desired capacity
     int *newStack = new int[newCapacity];
+    //Initialize each new array index with old array elements
     for(int i = 0; i<newCapacity; i++){
         newStack[i] = stack[i];
     }
 
+    //Deallocate old array
     delete[] stack;
+    //Assign old array pointer to new array address
     stack = newStack;
 }
 #endif
